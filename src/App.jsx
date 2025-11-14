@@ -151,7 +151,7 @@ function App() {
         </div>
       </section>
 
-      {/* About — slide with image */}
+      {/* About — elevated granite art panel */}
       <section id="about" className="relative py-24 md:py-32 bg-gradient-to-b from-neutral-950 to-black/60 border-t border-neutral-900 overflow-hidden">
         <div className="mx-auto max-w-7xl px-6 grid md:grid-cols-2 gap-10 items-center">
           <motion.div
@@ -178,16 +178,78 @@ function App() {
             transition={{ duration: 0.6, delay: 0.1 }}
             className="relative"
           >
-            <div className="absolute -inset-4 rounded-2xl bg-emerald-500/10 blur-2xl" />
-            <Tilt className="relative overflow-hidden rounded-2xl border border-neutral-800 bg-neutral-900 shadow-2xl">
+            {/* Aura */}
+            <div className="absolute -inset-6 rounded-3xl bg-[radial-gradient(40%_50%_at_60%_30%,rgba(16,185,129,0.18),transparent_60%)] blur-2xl" />
+
+            <Tilt className="group relative overflow-hidden rounded-2xl border border-neutral-800 bg-neutral-950 shadow-2xl">
+              {/* Bevel + inner glow */}
+              <div aria-hidden className="pointer-events-none absolute inset-0 rounded-2xl shadow-[inset_0_1px_0_rgba(255,255,255,0.06),inset_0_-40px_80px_-40px_rgba(16,185,129,0.12)]" />
+
+              {/* Granite macro texture */}
               <div
-                className="aspect-[4/3] w-full bg-cover bg-center"
-                style={{
-                  backgroundImage:
-                    "url('https://images.unsplash.com/photo-1760764541302-e3955fbc6b2b?ixid=M3w3OTkxMTl8MHwxfHNlYXJjaHwxfHxjZXJhbWljJTIwcG90dGVyeSUyMGhhbmRtYWRlfGVufDB8MHx8fDE3NjMwMzQ4MDl8MA&ixlib=rb-4.1.0&w=1600&auto=format&fit=crop&q=80')",
-                }}
-              />
-              <div className="pointer-events-none absolute inset-0 bg-gradient-to-tr from-black/60 via-transparent to-emerald-500/10" />
+                className="relative z-0 aspect-[4/3] w-full overflow-hidden"
+              >
+                <div
+                  className="absolute inset-0 bg-cover bg-center transition-transform duration-700 will-change-transform scale-105 group-hover:scale-110"
+                  style={{
+                    backgroundImage:
+                      "url('https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&q=80&w=1600')",
+                  }}
+                />
+
+                {/* Emerald aurora + vignette */}
+                <div className="absolute inset-0 mix-blend-overlay" style={{ backgroundImage: 'radial-gradient(60%_60%_at_70%_35%,rgba(16,185,129,0.18),transparent_60%)' }} />
+                <div className="absolute inset-0 bg-[radial-gradient(120%_80%_at_50%_50%,transparent_60%,rgba(0,0,0,0.75))]" />
+
+                {/* Fine grain noise */}
+                <div className="absolute inset-0 opacity-[0.10] mix-blend-soft-light" style={{ backgroundImage: 'radial-gradient(1px_1px_at_20%_30%,rgba(255,255,255,0.15),transparent_40%),radial-gradient(1px_1px_at_70%_60%,rgba(255,255,255,0.12),transparent_40%),repeating-linear-gradient(0deg,rgba(255,255,255,0.03)_0,rgba(255,255,255,0.03)_1px,transparent_1px,transparent_2px)' }} />
+
+                {/* Watermark glyph */}
+                <div className="pointer-events-none absolute inset-0 grid place-items-center">
+                  <Sparkles className="h-40 w-40 text-white/5 blur-[1px]" />
+                </div>
+
+                {/* Gloss sweep */}
+                <motion.div
+                  aria-hidden
+                  className="pointer-events-none absolute -inset-y-16 left-[-40%] right-[-40%] rotate-[12deg] bg-gradient-to-r from-transparent via-white/12 to-transparent"
+                  initial={{ x: '-60%' }}
+                  whileHover={{ x: '60%' }}
+                  transition={{ duration: 1.4, ease: 'easeInOut' }}
+                />
+
+                {/* Floating plaques */}
+                <motion.div
+                  className="absolute top-4 left-4 rounded-lg border border-neutral-700/60 bg-neutral-900/70 backdrop-blur px-3 py-2 text-xs text-neutral-300 inline-flex items-center gap-2"
+                  initial={{ y: 8, opacity: 0 }}
+                  whileInView={{ y: 0, opacity: 1 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.5, delay: 0.1 }}
+                >
+                  <Layers className="h-3.5 w-3.5 text-emerald-300" /> Tokenized UI
+                </motion.div>
+                <motion.div
+                  className="absolute bottom-5 left-5 rounded-lg border border-neutral-700/60 bg-neutral-900/70 backdrop-blur px-3 py-2 text-xs text-neutral-300 inline-flex items-center gap-2"
+                  initial={{ y: 8, opacity: 0 }}
+                  whileInView={{ y: 0, opacity: 1 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.5, delay: 0.2 }}
+                >
+                  <Gauge className="h-3.5 w-3.5 text-emerald-300" /> 0.9s LCP
+                </motion.div>
+                <motion.div
+                  className="absolute top-1/2 right-5 -translate-y-1/2 rounded-lg border border-neutral-700/60 bg-neutral-900/70 backdrop-blur px-3 py-2 text-xs text-neutral-300 inline-flex items-center gap-2"
+                  initial={{ y: 8, opacity: 0 }}
+                  whileInView={{ y: 0, opacity: 1 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.5, delay: 0.3 }}
+                >
+                  <ShieldCheck className="h-3.5 w-3.5 text-emerald-300" /> WCAG 2.2 AA
+                </motion.div>
+              </div>
+
+              {/* Edge highlight */}
+              <div aria-hidden className="pointer-events-none absolute inset-0 rounded-2xl ring-1 ring-neutral-800" />
             </Tilt>
           </motion.div>
         </div>
