@@ -1,7 +1,7 @@
 import React from 'react'
 import Spline from '@splinetool/react-spline'
 import { Building2, ShieldCheck, Layers, Gauge, ChevronRight, Sparkles } from 'lucide-react'
-import { motion } from 'framer-motion'
+import { motion, useMotionValue, useSpring } from 'framer-motion'
 
 function App() {
   return (
@@ -59,7 +59,7 @@ function App() {
         </div>
       </section>
 
-      {/* Solutions — Louder with motion */}
+      {/* Solutions — Louder with motion + parallax tilt */}
       <section id="solutions" className="relative py-28">
         {/* Granite texture + gridlines */}
         <div className="pointer-events-none absolute inset-0 opacity-[0.14]" style={{ backgroundImage: 'radial-gradient(2px_2px_at_20%_30%,rgba(255,255,255,0.08)_0,transparent_50%),radial-gradient(2px_2px_at_80%_60%,rgba(255,255,255,0.06)_0,transparent_50%),radial-gradient(1.5px_1.5px_at_60%_20%,rgba(255,255,255,0.05)_0,transparent_40%)' }} />
@@ -87,7 +87,7 @@ function App() {
             </motion.p>
           </div>
 
-          <div className="mt-14 space-y-8">
+          <div className="mt-14 space-y-10">
             <Slab
               eyebrow="Program I"
               icon={Layers}
@@ -151,10 +151,15 @@ function App() {
         </div>
       </section>
 
-      {/* About */}
-      <section id="about" className="relative py-24 md:py-32 bg-gradient-to-b from-neutral-950 to-black/60 border-t border-neutral-900">
+      {/* About — slide with image */}
+      <section id="about" className="relative py-24 md:py-32 bg-gradient-to-b from-neutral-950 to-black/60 border-t border-neutral-900 overflow-hidden">
         <div className="mx-auto max-w-7xl px-6 grid md:grid-cols-2 gap-10 items-center">
-          <div>
+          <motion.div
+            initial={{ opacity: 0, x: -40 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true, amount: 0.4 }}
+            transition={{ duration: 0.6 }}
+          >
             <h3 className="text-2xl md:text-3xl font-semibold text-white">Minimal. Monumental.</h3>
             <p className="mt-4 text-neutral-400 leading-relaxed">
               Our philosophy is simple: remove the noise, reveal the form. We build calm, durable interfaces that let your message resonate. Every surface, shadow, and micro-interaction is considered—nothing ornamental, everything intentional.
@@ -164,13 +169,27 @@ function App() {
               <li className="flex items-start gap-3"><span className="mt-1 h-2 w-2 rounded-full bg-emerald-400"/>Design systems that scale without friction.</li>
               <li className="flex items-start gap-3"><span className="mt-1 h-2 w-2 rounded-full bg-emerald-400"/>Reliability that feels carved from stone.</li>
             </ul>
-          </div>
-          <div className="relative">
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, x: 40 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true, amount: 0.4 }}
+            transition={{ duration: 0.6, delay: 0.1 }}
+            className="relative"
+          >
             <div className="absolute -inset-4 rounded-2xl bg-emerald-500/10 blur-2xl" />
-            <div className="relative overflow-hidden rounded-2xl border border-neutral-800 bg-neutral-900 shadow-2xl">
-              <div className="aspect-[4/3] w-full bg-[radial-gradient(circle_at_30%_30%,rgba(255,255,255,0.06),transparent_40%),radial-gradient(circle_at_70%_60%,rgba(16,185,129,0.12),transparent_45%)]" />
-            </div>
-          </div>
+            <Tilt className="relative overflow-hidden rounded-2xl border border-neutral-800 bg-neutral-900 shadow-2xl">
+              <div
+                className="aspect-[4/3] w-full bg-cover bg-center"
+                style={{
+                  backgroundImage:
+                    "url('https://images.unsplash.com/photo-1760764541302-e3955fbc6b2b?ixid=M3w3OTkxMTl8MHwxfHNlYXJjaHwxfHxjZXJhbWljJTIwcG90dGVyeSUyMGhhbmRtYWRlfGVufDB8MHx8fDE3NjMwMzQ4MDl8MA&ixlib=rb-4.1.0&w=1600&auto=format&fit=crop&q=80')",
+                }}
+              />
+              <div className="pointer-events-none absolute inset-0 bg-gradient-to-tr from-black/60 via-transparent to-emerald-500/10" />
+            </Tilt>
+          </motion.div>
         </div>
       </section>
 
@@ -210,80 +229,81 @@ function App() {
 
 function Slab({ eyebrow, icon: Icon = Gauge, title, desc, bullets = [], statLabel, statValue, cta, accent, index = 0 }) {
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 36 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, amount: 0.4 }}
-      transition={{ duration: 0.6, delay: 0.05 * index }}
-      whileHover={{ y: -4 }}
-      className="group relative overflow-hidden rounded-3xl border border-neutral-800 bg-neutral-950/70 p-6 md:p-8 shadow-[inset_0_1px_0_rgba(255,255,255,0.03)]"
-    >
-      {/* Edge glow */}
+    <Tilt>
       <motion.div
-        aria-hidden
-        className="pointer-events-none absolute -inset-px"
-        initial={{ opacity: 0 }}
-        whileHover={{ opacity: 1 }}
-        transition={{ duration: 0.5 }}
-        style={{ background: 'radial-gradient(700px_220px_at_0%_0%,rgba(16,185,129,0.10),transparent_60%)' }}
-      />
+        initial={{ opacity: 0, y: 36 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, amount: 0.4 }}
+        transition={{ duration: 0.6, delay: 0.05 * index }}
+        className="group relative overflow-hidden rounded-3xl border border-neutral-800 bg-neutral-950/70 p-6 md:p-8 shadow-[inset_0_1px_0_rgba(255,255,255,0.03)]"
+      >
+        {/* Edge glow */}
+        <motion.div
+          aria-hidden
+          className="pointer-events-none absolute -inset-px"
+          initial={{ opacity: 0 }}
+          whileHover={{ opacity: 1 }}
+          transition={{ duration: 0.5 }}
+          style={{ background: 'radial-gradient(700px_220px_at_0%_0%,rgba(16,185,129,0.10),transparent_60%)' }}
+        />
 
-      {/* Sheen sweep */}
-      <motion.div
-        aria-hidden
-        className="pointer-events-none absolute -inset-y-10 -left-1/3 right-1/3 rotate-[8deg] bg-gradient-to-r from-transparent via-white/6 to-transparent"
-        initial={{ x: '-60%' }}
-        whileHover={{ x: '60%' }}
-        transition={{ duration: 1.2, ease: 'easeInOut' }}
-      />
+        {/* Sheen sweep */}
+        <motion.div
+          aria-hidden
+          className="pointer-events-none absolute -inset-y-10 -left-1/3 right-1/3 rotate-[8deg] bg-gradient-to-r from-transparent via-white/6 to-transparent"
+          initial={{ x: '-60%' }}
+          whileHover={{ x: '60%' }}
+          transition={{ duration: 1.2, ease: 'easeInOut' }}
+        />
 
-      <div className="relative grid md:grid-cols-[1.2fr_0.8fr] gap-8 items-start">
-        <div>
-          <div className="flex items-center gap-3 text-neutral-400">
-            <div className="inline-flex h-10 w-10 items-center justify-center rounded-md bg-neutral-900 ring-1 ring-neutral-700/70">
-              <Icon className="h-5 w-5 text-emerald-300" />
+        <div className="relative grid md:grid-cols-[1.2fr_0.8fr] gap-8 items-start">
+          <div>
+            <div className="flex items-center gap-3 text-neutral-400">
+              <div className="inline-flex h-10 w-10 items-center justify-center rounded-md bg-neutral-900 ring-1 ring-neutral-700/70">
+                <Icon className="h-5 w-5 text-emerald-300" />
+              </div>
+              <span className="text-xs tracking-[0.25em] uppercase">{eyebrow}</span>
             </div>
-            <span className="text-xs tracking-[0.25em] uppercase">{eyebrow}</span>
+            <h3 className="mt-4 text-2xl md:text-4xl font-semibold text-white leading-tight">{title}</h3>
+            <p className="mt-3 text-neutral-400 text-base md:text-lg max-w-2xl">{desc}</p>
+            <ul className="mt-5 flex flex-wrap gap-3">
+              {bullets.map((b) => (
+                <li key={b} className="inline-flex items-center gap-2 rounded-full border border-neutral-800 bg-neutral-900/70 px-3 py-1 text-sm text-neutral-300">
+                  <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" /> {b}
+                </li>
+              ))}
+            </ul>
+            <div className="mt-6">
+              <a href="#contact" className="inline-flex items-center gap-2 rounded-md px-4 py-2 text-sm font-semibold text-emerald-300 ring-1 ring-emerald-500/30 hover:bg-emerald-500/10 transition-colors">
+                {cta} <ChevronRight className="h-4 w-4" />
+              </a>
+            </div>
           </div>
-          <h3 className="mt-4 text-2xl md:text-4xl font-semibold text-white leading-tight">{title}</h3>
-          <p className="mt-3 text-neutral-400 text-base md:text-lg max-w-2xl">{desc}</p>
-          <ul className="mt-5 flex flex-wrap gap-3">
-            {bullets.map((b) => (
-              <li key={b} className="inline-flex items-center gap-2 rounded-full border border-neutral-800 bg-neutral-900/70 px-3 py-1 text-sm text-neutral-300">
-                <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" /> {b}
-              </li>
-            ))}
-          </ul>
-          <div className="mt-6">
-            <a href="#contact" className="inline-flex items-center gap-2 rounded-md px-4 py-2 text-sm font-semibold text-emerald-300 ring-1 ring-emerald-500/30 hover:bg-emerald-500/10 transition-colors">
-              {cta} <ChevronRight className="h-4 w-4" />
-            </a>
+
+          <div className="relative">
+            <div className="absolute -inset-6 bg-gradient-to-br from-neutral-900 via-neutral-950 to-black rounded-2xl blur-xl opacity-60" />
+            <div className="relative overflow-hidden rounded-2xl border border-neutral-800 bg-neutral-950 p-6">
+              <div className="text-sm text-neutral-400">{statLabel}</div>
+              <div className="mt-2 text-4xl md:text-5xl font-semibold text-white tracking-tight">
+                <span className={accent === 'emerald' ? 'text-emerald-400' : ''}>{statValue}</span>
+              </div>
+              <div className="mt-6 grid grid-cols-3 gap-3">
+                <MiniMetric label="Setup" value="2-4w" />
+                <MiniMetric label="Teams" value="5-12" />
+                <MiniMetric label="Coverage" value="Global" />
+              </div>
+              <motion.div
+                className="mt-6 h-28 rounded-lg border border-neutral-800"
+                initial={{ backgroundPosition: '0% 50%' }}
+                animate={{ backgroundPosition: ['0% 50%', '100% 50%', '0% 50%'] }}
+                transition={{ duration: 8, repeat: Infinity, ease: 'linear' }}
+                style={{ backgroundImage: 'radial-gradient(circle_at_30%_30%,rgba(255,255,255,0.06),transparent_40%),radial-gradient(circle_at_70%_60%,rgba(16,185,129,0.18),transparent_45%)' }}
+              />
+            </div>
           </div>
         </div>
-
-        <div className="relative">
-          <div className="absolute -inset-6 bg-gradient-to-br from-neutral-900 via-neutral-950 to-black rounded-2xl blur-xl opacity-60" />
-          <div className="relative overflow-hidden rounded-2xl border border-neutral-800 bg-neutral-950 p-6">
-            <div className="text-sm text-neutral-400">{statLabel}</div>
-            <div className="mt-2 text-4xl md:text-5xl font-semibold text-white tracking-tight">
-              <span className={accent === 'emerald' ? 'text-emerald-400' : ''}>{statValue}</span>
-            </div>
-            <div className="mt-6 grid grid-cols-3 gap-3">
-              <MiniMetric label="Setup" value="2-4w" />
-              <MiniMetric label="Teams" value="5-12" />
-              <MiniMetric label="Coverage" value="Global" />
-            </div>
-            <motion.div
-              className="mt-6 h-28 rounded-lg border border-neutral-800"
-              initial={{ backgroundPosition: '0% 50%' }}
-              animate={{ backgroundPosition: ['0% 50%', '100% 50%', '0% 50%'] }}
-              transition={{ duration: 8, repeat: Infinity, ease: 'linear' }}
-              style={{ backgroundImage: 'radial-gradient(circle_at_30%_30%,rgba(255,255,255,0.06),transparent_40%),radial-gradient(circle_at_70%_60%,rgba(16,185,129,0.18),transparent_45%)' }}
-            />
-          </div>
-        </div>
-      </div>
-    </motion.div>
+      </motion.div>
+    </Tilt>
   )
 }
 
@@ -324,6 +344,48 @@ function OutcomesMarquee() {
         ))}
       </motion.div>
     </div>
+  )
+}
+
+function Tilt({ children, className = '', intensity = 10, scale = 1.02 }) {
+  const rx = useMotionValue(0)
+  const ry = useMotionValue(0)
+  const sx = useSpring(rx, { stiffness: 200, damping: 20 })
+  const sy = useSpring(ry, { stiffness: 200, damping: 20 })
+
+  function handleMove(e) {
+    const el = e.currentTarget
+    const rect = el.getBoundingClientRect()
+    const px = (e.clientX - rect.left) / rect.width
+    const py = (e.clientY - rect.top) / rect.height
+    const rX = (0.5 - py) * intensity
+    const rY = (px - 0.5) * intensity
+    rx.set(rX)
+    ry.set(rY)
+  }
+
+  function handleLeave() {
+    rx.set(0)
+    ry.set(0)
+  }
+
+  return (
+    <motion.div
+      className={className}
+      style={{
+        transformStyle: 'preserve-3d',
+        perspective: 1000,
+      }}
+      onMouseMove={handleMove}
+      onMouseLeave={handleLeave}
+    >
+      <motion.div
+        style={{ rotateX: sx, rotateY: sy, scale }}
+        transition={{ type: 'spring', stiffness: 200, damping: 20 }}
+      >
+        {children}
+      </motion.div>
+    </motion.div>
   )
 }
 
