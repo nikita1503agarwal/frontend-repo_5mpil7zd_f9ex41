@@ -1,6 +1,7 @@
 import React from 'react'
 import Spline from '@splinetool/react-spline'
 import { Building2, ShieldCheck, Layers, Gauge, ChevronRight, Sparkles } from 'lucide-react'
+import { motion } from 'framer-motion'
 
 function App() {
   return (
@@ -58,7 +59,7 @@ function App() {
         </div>
       </section>
 
-      {/* Solutions — Bold "Signature Slabs" */}
+      {/* Solutions — Louder with motion */}
       <section id="solutions" className="relative py-28">
         {/* Granite texture + gridlines */}
         <div className="pointer-events-none absolute inset-0 opacity-[0.14]" style={{ backgroundImage: 'radial-gradient(2px_2px_at_20%_30%,rgba(255,255,255,0.08)_0,transparent_50%),radial-gradient(2px_2px_at_80%_60%,rgba(255,255,255,0.06)_0,transparent_50%),radial-gradient(1.5px_1.5px_at_60%_20%,rgba(255,255,255,0.05)_0,transparent_40%)' }} />
@@ -66,8 +67,24 @@ function App() {
 
         <div className="relative mx-auto max-w-7xl px-6">
           <div className="max-w-3xl">
-            <h2 className="text-3xl md:text-5xl font-semibold tracking-tight text-white">Signature Solutions</h2>
-            <p className="mt-4 text-neutral-400 text-lg">Not a list of features—three monumental programs engineered to move markets.</p>
+            <motion.h2
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.6 }}
+              transition={{ duration: 0.6 }}
+              className="text-3xl md:text-5xl font-semibold tracking-tight text-white"
+            >
+              Signature Solutions
+            </motion.h2>
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.6 }}
+              transition={{ duration: 0.6, delay: 0.1 }}
+              className="mt-4 text-neutral-400 text-lg"
+            >
+              Not a list of features—three monumental programs engineered to move markets.
+            </motion.p>
           </div>
 
           <div className="mt-14 space-y-8">
@@ -82,6 +99,7 @@ function App() {
               statLabel="Avg. design debt reduction"
               statValue="-63%"
               cta="Explore the System"
+              index={0}
             />
 
             <Slab
@@ -96,6 +114,7 @@ function App() {
               statValue="0.9s"
               cta="See the Platform"
               accent="emerald"
+              index={1}
             />
 
             <Slab
@@ -109,10 +128,16 @@ function App() {
               statLabel="Audit pass rate"
               statValue="99.3%"
               cta="Review the Standard"
+              index={2}
             />
           </div>
 
-          {/* Hard-edged ticker of capabilities */}
+          {/* Outcomes marquee */}
+          <div className="mt-16">
+            <OutcomesMarquee />
+          </div>
+
+          {/* Capabilities matrix chips */}
           <div className="mt-14 overflow-hidden rounded-xl border border-neutral-800 bg-neutral-950/60">
             <div className="px-4 py-3 text-xs uppercase tracking-[0.25em] text-neutral-400 border-b border-neutral-800">Capabilities</div>
             <div className="flex flex-wrap gap-x-6 gap-y-3 px-6 py-5 text-sm">
@@ -183,19 +208,34 @@ function App() {
   )
 }
 
-function Slab({ eyebrow, icon: Icon = Gauge, title, desc, bullets = [], statLabel, statValue, cta, accent }) {
+function Slab({ eyebrow, icon: Icon = Gauge, title, desc, bullets = [], statLabel, statValue, cta, accent, index = 0 }) {
   return (
-    <div className="group relative overflow-hidden rounded-3xl border border-neutral-800 bg-neutral-950/70 p-6 md:p-8 shadow-[inset_0_1px_0_rgba(255,255,255,0.03)]">
+    <motion.div
+      initial={{ opacity: 0, y: 36 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, amount: 0.4 }}
+      transition={{ duration: 0.6, delay: 0.05 * index }}
+      whileHover={{ y: -4 }}
+      className="group relative overflow-hidden rounded-3xl border border-neutral-800 bg-neutral-950/70 p-6 md:p-8 shadow-[inset_0_1px_0_rgba(255,255,255,0.03)]"
+    >
       {/* Edge glow */}
-      <div className="pointer-events-none absolute -inset-px opacity-0 group-hover:opacity-100 transition-opacity duration-500" style={{ background: 'radial-gradient(700px_220px_at_0%_0%,rgba(16,185,129,0.10),transparent_60%)' }} />
+      <motion.div
+        aria-hidden
+        className="pointer-events-none absolute -inset-px"
+        initial={{ opacity: 0 }}
+        whileHover={{ opacity: 1 }}
+        transition={{ duration: 0.5 }}
+        style={{ background: 'radial-gradient(700px_220px_at_0%_0%,rgba(16,185,129,0.10),transparent_60%)' }}
+      />
 
-      {/* Corner accents */}
-      <div className="pointer-events-none absolute inset-0 grid grid-cols-2 grid-rows-2 opacity-20">
-        <div className="border-t border-l border-neutral-800 rounded-tl-3xl" />
-        <div className="border-t border-r border-neutral-800 rounded-tr-3xl" />
-        <div className="border-b border-l border-neutral-800 rounded-bl-3xl" />
-        <div className="border-b border-r border-neutral-800 rounded-br-3xl" />
-      </div>
+      {/* Sheen sweep */}
+      <motion.div
+        aria-hidden
+        className="pointer-events-none absolute -inset-y-10 -left-1/3 right-1/3 rotate-[8deg] bg-gradient-to-r from-transparent via-white/6 to-transparent"
+        initial={{ x: '-60%' }}
+        whileHover={{ x: '60%' }}
+        transition={{ duration: 1.2, ease: 'easeInOut' }}
+      />
 
       <div className="relative grid md:grid-cols-[1.2fr_0.8fr] gap-8 items-start">
         <div>
@@ -233,11 +273,17 @@ function Slab({ eyebrow, icon: Icon = Gauge, title, desc, bullets = [], statLabe
               <MiniMetric label="Teams" value="5-12" />
               <MiniMetric label="Coverage" value="Global" />
             </div>
-            <div className="mt-6 h-28 rounded-lg border border-neutral-800 bg-[radial-gradient(circle_at_30%_30%,rgba(255,255,255,0.06),transparent_40%),radial-gradient(circle_at_70%_60%,rgba(16,185,129,0.12),transparent_45%)]" />
+            <motion.div
+              className="mt-6 h-28 rounded-lg border border-neutral-800"
+              initial={{ backgroundPosition: '0% 50%' }}
+              animate={{ backgroundPosition: ['0% 50%', '100% 50%', '0% 50%'] }}
+              transition={{ duration: 8, repeat: Infinity, ease: 'linear' }}
+              style={{ backgroundImage: 'radial-gradient(circle_at_30%_30%,rgba(255,255,255,0.06),transparent_40%),radial-gradient(circle_at_70%_60%,rgba(16,185,129,0.18),transparent_45%)' }}
+            />
           </div>
         </div>
       </div>
-    </div>
+    </motion.div>
   )
 }
 
@@ -246,6 +292,37 @@ function MiniMetric({ label, value }) {
     <div className="rounded-lg border border-neutral-800 bg-neutral-900/60 p-3 text-center">
       <div className="text-[11px] uppercase tracking-wider text-neutral-400">{label}</div>
       <div className="mt-1 text-lg font-semibold text-neutral-100">{value}</div>
+    </div>
+  )
+}
+
+function OutcomesMarquee() {
+  const items = [
+    '+48% conversion',
+    '0.9s global LCP',
+    '99.3% audit pass',
+    'NPS 72',
+    'TTV -42%',
+    'Design debt -63%',
+    'Bounce -28%',
+    'Uptime 99.99%',
+  ]
+  const row = [...items, ...items, ...items]
+  return (
+    <div className="relative overflow-hidden rounded-2xl border border-neutral-800 bg-neutral-950">
+      <div className="pointer-events-none absolute inset-0 bg-gradient-to-r from-neutral-950 via-transparent to-neutral-950" />
+      <motion.div
+        className="flex gap-8 whitespace-nowrap py-4 px-6 text-emerald-300/90"
+        animate={{ x: ['0%', '-50%'] }}
+        transition={{ duration: 20, repeat: Infinity, ease: 'linear' }}
+      >
+        {row.map((label, i) => (
+          <span key={i} className="inline-flex items-center gap-3 text-sm md:text-base">
+            <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" />
+            <span className="tracking-wide">{label}</span>
+          </span>
+        ))}
+      </motion.div>
     </div>
   )
 }
