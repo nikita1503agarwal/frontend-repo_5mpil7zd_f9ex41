@@ -58,47 +58,70 @@ function App() {
         </div>
       </section>
 
-      {/* Solutions */}
-      <section id="solutions" className="relative py-24 md:py-32">
-        {/* subtle granite speckle */}
-        <div className="pointer-events-none absolute inset-0 opacity-[0.15]" style={{ backgroundImage: 'radial-gradient(2px 2px at 20% 30%, rgba(255,255,255,0.08) 0, transparent 50%), radial-gradient(2px 2px at 80% 60%, rgba(255,255,255,0.06) 0, transparent 50%), radial-gradient(1.5px 1.5px at 60% 20%, rgba(255,255,255,0.05) 0, transparent 40%)' }} />
+      {/* Solutions — Bold "Signature Slabs" */}
+      <section id="solutions" className="relative py-28">
+        {/* Granite texture + gridlines */}
+        <div className="pointer-events-none absolute inset-0 opacity-[0.14]" style={{ backgroundImage: 'radial-gradient(2px_2px_at_20%_30%,rgba(255,255,255,0.08)_0,transparent_50%),radial-gradient(2px_2px_at_80%_60%,rgba(255,255,255,0.06)_0,transparent_50%),radial-gradient(1.5px_1.5px_at_60%_20%,rgba(255,255,255,0.05)_0,transparent_40%)' }} />
+        <div className="pointer-events-none absolute inset-0 [background-image:linear-gradient(to_right,rgba(255,255,255,0.06)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.06)_1px,transparent_1px)] bg-[size:80px_80px] opacity-[0.06]" />
+
         <div className="relative mx-auto max-w-7xl px-6">
-          <div className="max-w-2xl">
-            <h2 className="text-3xl md:text-4xl font-semibold tracking-tight text-white">Solutions, hewn to endure</h2>
-            <p className="mt-3 text-neutral-400 max-w-xl">Purpose-built capabilities for teams that demand clarity, control, and calm.
-            </p>
+          <div className="max-w-3xl">
+            <h2 className="text-3xl md:text-5xl font-semibold tracking-tight text-white">Signature Solutions</h2>
+            <p className="mt-4 text-neutral-400 text-lg">Not a list of features—three monumental programs engineered to move markets.</p>
           </div>
-          <div className="mt-10 grid grid-cols-1 md:grid-cols-3 gap-6">
-            <FeatureCard
-              icon={Building2}
-              title="Corporate Websites"
-              desc="Elegant, high-performance websites that communicate strength and precision."
-            />
-            <FeatureCard
-              icon={ShieldCheck}
-              title="Compliance & Trust"
-              desc="Accessibility, security, and governance baked into every detail."
-            />
-            <FeatureCard
+
+          <div className="mt-14 space-y-8">
+            <Slab
+              eyebrow="Program I"
               icon={Layers}
-              title="Design Systems"
-              desc="Cohesive UI libraries that scale across products and teams."
+              title={<>
+                Brand Systems <span className="text-neutral-400">that</span> Endure
+              </>}
+              desc="A carved-from-stone design language. We build living systems that stay elegant under pressure and scale without entropy."
+              bullets={['Visual + interaction tokens','Component libraries + docs','Multi-brand orchestration']}
+              statLabel="Avg. design debt reduction"
+              statValue="-63%"
+              cta="Explore the System"
             />
-            <FeatureCard
-              icon={Gauge}
-              title="Performance"
-              desc="Lightning-fast experiences tuned for global audiences."
+
+            <Slab
+              eyebrow="Program II"
+              icon={Building2}
+              title={<>
+                Experience Platforms <span className="text-neutral-400">with</span> Velocity
+              </>}
+              desc="From marketing sites to product surfaces—performance-first builds with global reach and ruthless clarity."
+              bullets={['Headless architecture','Internationalization','Performance budgets < 1s LCP']}
+              statLabel="Median LCP (global)"
+              statValue="0.9s"
+              cta="See the Platform"
+              accent="emerald"
             />
-            <FeatureCard
-              icon={Sparkles}
-              title="Brand Craft"
-              desc="Identity and art direction with a timeless, minimal aesthetic."
+
+            <Slab
+              eyebrow="Program III"
+              icon={ShieldCheck}
+              title={<>
+                Assurance <span className="text-neutral-400">&</span> Trust
+              </>}
+              desc="Governance woven into the grain—accessibility, privacy, and security practices that withstand audit and time."
+              bullets={['WCAG 2.2 AA','Privacy-by-design','Threat modeling + SLA']}
+              statLabel="Audit pass rate"
+              statValue="99.3%"
+              cta="Review the Standard"
             />
-            <FeatureCard
-              icon={ChevronRight}
-              title="Advisory"
-              desc="Executive guidance that aligns design with business outcomes."
-            />
+          </div>
+
+          {/* Hard-edged ticker of capabilities */}
+          <div className="mt-14 overflow-hidden rounded-xl border border-neutral-800 bg-neutral-950/60">
+            <div className="px-4 py-3 text-xs uppercase tracking-[0.25em] text-neutral-400 border-b border-neutral-800">Capabilities</div>
+            <div className="flex flex-wrap gap-x-6 gap-y-3 px-6 py-5 text-sm">
+              {['Design Tokens','Motion Guidelines','Content Models','A/B Framework','Globalization','Observability','Zero-Trust','Compliance Kits','Playbooks','Component QA'].map((chip)=> (
+                <span key={chip} className="inline-flex items-center gap-2 rounded-full border border-neutral-800 bg-neutral-900/70 px-3 py-1 text-neutral-300">
+                  <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" />{chip}
+                </span>
+              ))}
+            </div>
           </div>
         </div>
       </section>
@@ -160,17 +183,69 @@ function App() {
   )
 }
 
-function FeatureCard({ icon: Icon, title, desc }) {
+function Slab({ eyebrow, icon: Icon = Gauge, title, desc, bullets = [], statLabel, statValue, cta, accent }) {
   return (
-    <div className="group relative overflow-hidden rounded-2xl border border-neutral-800 bg-neutral-950/60 p-6 shadow-[inset_0_1px_0_rgba(255,255,255,0.03)] transition-colors hover:border-neutral-700">
-      <div className="absolute -inset-px opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" style={{ background: 'radial-gradient(600px 200px at 0% 0%, rgba(16,185,129,0.10), transparent 60%)' }} />
-      <div className="relative">
-        <div className="mb-4 inline-flex h-11 w-11 items-center justify-center rounded-md bg-neutral-900 ring-1 ring-neutral-700/70">
-          <Icon className="h-5 w-5 text-emerald-300" />
-        </div>
-        <h3 className="text-lg font-semibold text-white">{title}</h3>
-        <p className="mt-2 text-sm leading-relaxed text-neutral-400">{desc}</p>
+    <div className="group relative overflow-hidden rounded-3xl border border-neutral-800 bg-neutral-950/70 p-6 md:p-8 shadow-[inset_0_1px_0_rgba(255,255,255,0.03)]">
+      {/* Edge glow */}
+      <div className="pointer-events-none absolute -inset-px opacity-0 group-hover:opacity-100 transition-opacity duration-500" style={{ background: 'radial-gradient(700px_220px_at_0%_0%,rgba(16,185,129,0.10),transparent_60%)' }} />
+
+      {/* Corner accents */}
+      <div className="pointer-events-none absolute inset-0 grid grid-cols-2 grid-rows-2 opacity-20">
+        <div className="border-t border-l border-neutral-800 rounded-tl-3xl" />
+        <div className="border-t border-r border-neutral-800 rounded-tr-3xl" />
+        <div className="border-b border-l border-neutral-800 rounded-bl-3xl" />
+        <div className="border-b border-r border-neutral-800 rounded-br-3xl" />
       </div>
+
+      <div className="relative grid md:grid-cols-[1.2fr_0.8fr] gap-8 items-start">
+        <div>
+          <div className="flex items-center gap-3 text-neutral-400">
+            <div className="inline-flex h-10 w-10 items-center justify-center rounded-md bg-neutral-900 ring-1 ring-neutral-700/70">
+              <Icon className="h-5 w-5 text-emerald-300" />
+            </div>
+            <span className="text-xs tracking-[0.25em] uppercase">{eyebrow}</span>
+          </div>
+          <h3 className="mt-4 text-2xl md:text-4xl font-semibold text-white leading-tight">{title}</h3>
+          <p className="mt-3 text-neutral-400 text-base md:text-lg max-w-2xl">{desc}</p>
+          <ul className="mt-5 flex flex-wrap gap-3">
+            {bullets.map((b) => (
+              <li key={b} className="inline-flex items-center gap-2 rounded-full border border-neutral-800 bg-neutral-900/70 px-3 py-1 text-sm text-neutral-300">
+                <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" /> {b}
+              </li>
+            ))}
+          </ul>
+          <div className="mt-6">
+            <a href="#contact" className="inline-flex items-center gap-2 rounded-md px-4 py-2 text-sm font-semibold text-emerald-300 ring-1 ring-emerald-500/30 hover:bg-emerald-500/10 transition-colors">
+              {cta} <ChevronRight className="h-4 w-4" />
+            </a>
+          </div>
+        </div>
+
+        <div className="relative">
+          <div className="absolute -inset-6 bg-gradient-to-br from-neutral-900 via-neutral-950 to-black rounded-2xl blur-xl opacity-60" />
+          <div className="relative overflow-hidden rounded-2xl border border-neutral-800 bg-neutral-950 p-6">
+            <div className="text-sm text-neutral-400">{statLabel}</div>
+            <div className="mt-2 text-4xl md:text-5xl font-semibold text-white tracking-tight">
+              <span className={accent === 'emerald' ? 'text-emerald-400' : ''}>{statValue}</span>
+            </div>
+            <div className="mt-6 grid grid-cols-3 gap-3">
+              <MiniMetric label="Setup" value="2-4w" />
+              <MiniMetric label="Teams" value="5-12" />
+              <MiniMetric label="Coverage" value="Global" />
+            </div>
+            <div className="mt-6 h-28 rounded-lg border border-neutral-800 bg-[radial-gradient(circle_at_30%_30%,rgba(255,255,255,0.06),transparent_40%),radial-gradient(circle_at_70%_60%,rgba(16,185,129,0.12),transparent_45%)]" />
+          </div>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+function MiniMetric({ label, value }) {
+  return (
+    <div className="rounded-lg border border-neutral-800 bg-neutral-900/60 p-3 text-center">
+      <div className="text-[11px] uppercase tracking-wider text-neutral-400">{label}</div>
+      <div className="mt-1 text-lg font-semibold text-neutral-100">{value}</div>
     </div>
   )
 }
